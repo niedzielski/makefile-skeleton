@@ -1,8 +1,9 @@
-# Report unitialized variable usage.
+# Report unitialized variable usage. Pass as a CLI flag to catch everything; see
+# https://savannah.gnu.org/bugs/?9060.
 MAKEFLAGS += --warn-undefined-variables
 
 # Only use the rules and variables supplied.
-MAKEFLAGS += --no-builtin-variables
+MAKEFLAGS += --no-builtin-rules --no-builtin-variables
 
 # Parallelize by default. Everything should have correct dependencies. This also
 # allows multiple watch tasks to execute in parallel without `xargs -P`.
