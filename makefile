@@ -8,7 +8,7 @@ dist_files := $(src_files:$(src_dir)/%.foo=$(dist_dir)/%.bar)
 
 # The default rule is a development watch.
 .PHONY: dev
-dev: build\:watch
+dev: build\:watch bundle\:watch
 
 # Copy doesn't have a watch mode so use Make to rebuild the target whenever any
 # file in the repo changes. This may be a no-op if the file changed was
@@ -19,10 +19,22 @@ build\:watch:
   watchexec -i dist '$(MAKE) --silent build'
 
 .PHONY: build
-build: $(dist_files)
+build: $(dist_files) bundle
 
 $(dist_dir)/%.bar: $(src_dir)/%.foo | $(dist_dir)/
   $(cp) '$<' '$@'
+
+.PHONY: bundle\:watch
+bundle\:watch: | $(dist_dir)/
+  $(deno) bundle '$(src_dir)/index.ts' '$(dist_dir)/index.js' --watch
+
+# Unlike `gcc --dependencies`, most tools do not generate Make dependency
+# listings. For targets that may have their own dependency trees, such as a
+# source file that imports other sources, the tool itself must be invoked to
+# determine if the target is outdated.
+.PHONY: bundle
+bundle: | $(dist_dir)/
+  $(deno) bundle '$(src_dir)/index.ts' '$(dist_dir)/index.js'
 
 $(dist_dir)/:; $(mkdir) '$@'
 
