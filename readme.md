@@ -1,6 +1,6 @@
 # 🦴 makefile-skeleton
 
-These is a template for small makefiles with defaults I've found useful.
+A template for small makefiles with defaults I've found useful.
 
 ## Complementary tools
 
