@@ -1,4 +1,4 @@
-include defaults.make
+include config.make
 
 dist_dir := dist
 src_dir := src
@@ -6,9 +6,9 @@ src_dir := src
 src_files := $(wildcard $(src_dir)/*.foo)
 dist_files := $(src_files:$(src_dir)/%.foo=$(dist_dir)/%.bar)
 
-# The default rule is a development watch.
-.PHONY: dev
-dev: build\:watch bundle\:watch
+# The default rule is build.
+.PHONY: build
+build: $(dist_files) bundle
 
 # Copy doesn't have a watch mode so use Make to rebuild the target whenever any
 # file in the repo changes. This may be a no-op if the file changed was
@@ -18,11 +18,11 @@ dev: build\:watch bundle\:watch
 build\:watch:
   watchexec -i dist '$(MAKE) --silent build'
 
-.PHONY: build
-build: $(dist_files) bundle
-
 $(dist_dir)/%.bar: $(src_dir)/%.foo | $(dist_dir)/
   $(cp) '$<' '$@'
+
+.PHONY: dev
+dev: build\:watch bundle\:watch
 
 .PHONY: bundle\:watch
 bundle\:watch: | $(dist_dir)/

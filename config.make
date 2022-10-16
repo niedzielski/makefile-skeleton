@@ -34,6 +34,9 @@ cp := cp --archive --force
 # Only report warnings and errors.
 deno := deno --quiet
 
+# Overwrite destination.
+ln := ln -f
+
 # Create directory hierarchies.
 mkdir := mkdir --parents
 
