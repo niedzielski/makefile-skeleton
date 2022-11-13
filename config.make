@@ -1,3 +1,5 @@
+# Debug with `V=1 make -j1`.
+
 # Report unitialized variable usage. Pass as a CLI flag to catch everything; see
 # https://savannah.gnu.org/bugs/?9060.
 MAKEFLAGS += --warn-undefined-variables
@@ -45,6 +47,9 @@ ln := ln --force
 
 # Create directory hierarchies.
 mkdir := mkdir --parents
+
+# Overwrite destination.
+mv := mv --force
 
 # Delete hierarchy if present.
 rm := rm --force --recursive
