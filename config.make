@@ -1,4 +1,4 @@
-# Debug with `V=1 make -j1`.
+# Debug with `V=1 make --jobs=1`.
 
 # Report unitialized variable usage. Pass as a CLI flag to catch everything; see
 # https://savannah.gnu.org/bugs/?9060.
@@ -40,7 +40,10 @@ cp := cp --archive --force
 # Only report warnings and errors.
 # https://github.com/denoland/deno/issues/10558
 # https://github.com/denoland/deno/issues/15828
-deno := deno --quiet
+deno := deno
+ifndef V
+deno += --quiet
+endif
 
 # Overwrite destination.
 ln := ln --force
