@@ -17,7 +17,7 @@ build: $(dist_files) bundle
 # irrelevant but that's what Make evaluates by examining the target's
 # dependencies.
 .PHONY: build\:watch
-build\:watch:; watchexec -i dist '$(MAKE) --silent build'
+build\:watch:; watchexec --ignore='*/$(dist_dir)/*' '$(MAKE) --silent build'
 
 $(dist_dir)/%.bar: $(src_dir)/%.foo | $(dist_dir)/; $(cp) '$<' '$@'
 
