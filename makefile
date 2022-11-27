@@ -6,6 +6,8 @@ src_dir := src
 src_files := $(wildcard $(src_dir)/*.foo)
 dist_files := $(src_files:$(src_dir)/%.foo=$(dist_dir)/%.bar)
 
+bundle_args ?=
+
 # The default rule is build.
 .PHONY: build
 build: $(dist_files) bundle
@@ -15,18 +17,16 @@ build: $(dist_files) bundle
 # irrelevant but that's what Make evaluates by examining the target's
 # dependencies.
 .PHONY: build\:watch
-build\:watch:
-  watchexec -i dist '$(MAKE) --silent build'
+build\:watch:; watchexec -i dist '$(MAKE) --silent build'
 
-$(dist_dir)/%.bar: $(src_dir)/%.foo | $(dist_dir)/
-  $(cp) '$<' '$@'
+$(dist_dir)/%.bar: $(src_dir)/%.foo | $(dist_dir)/; $(cp) '$<' '$@'
 
-.PHONY: dev
-dev: build\:watch bundle\:watch
+.PHONY: watch
+watch: build\:watch bundle\:watch
 
 .PHONY: bundle\:watch
-bundle\:watch: | $(dist_dir)/
-  $(deno) bundle '$(src_dir)/index.ts' '$(dist_dir)/index.js' --watch
+bundle\:watch: bundle_args += --watch
+bundle\:watch: bundle
 
 # Unlike `gcc --dependencies`, most tools do not generate Make dependency
 # listings. For targets that may have their own dependency trees, such as a
@@ -34,7 +34,7 @@ bundle\:watch: | $(dist_dir)/
 # determine if the target is outdated.
 .PHONY: bundle
 bundle: | $(dist_dir)/
-  $(deno) bundle '$(src_dir)/index.ts' '$(dist_dir)/index.js'
+  $(deno) bundle '$(src_dir)/index.ts' '$(dist_dir)/index.js' $(bundle_args)
 
 $(dist_dir)/:; $(mkdir) '$@'
 
