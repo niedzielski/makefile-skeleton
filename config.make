@@ -1,4 +1,4 @@
-# Debug with `V=1 make --jobs=1`.
+# Debug with `v=1 make --jobs=1`.
 
 # Report unitialized variable usage. Pass as a CLI flag to catch everything; see
 # https://savannah.gnu.org/bugs/?9060.
@@ -22,7 +22,7 @@ space := $(empty) $(empty)
 .SHELLFLAGS := -euc
 
 # Don't echo recipes.
-ifndef V
+ifndef v
 .SILENT:
 endif
 
@@ -40,10 +40,7 @@ cp := cp --archive --force
 # Only report warnings and errors.
 # https://github.com/denoland/deno/issues/10558
 # https://github.com/denoland/deno/issues/15828
-deno := deno
-ifndef V
-deno += --quiet
-endif
+deno := deno $(if $(value v),,--quiet)
 
 # Overwrite destination.
 ln := ln --force
@@ -58,7 +55,4 @@ mv := mv --force
 rm := rm --force --recursive
 
 # Silence sub-makes.
-make = $(MAKE)
-ifndef V
-make += --silent
-endif
+make = $(MAKE) $(if $(value v),,--quiet)
