@@ -40,3 +40,8 @@ $(dist_dir)/:; $(mkdir) '$@'
 
 .PHONY: clean
 clean:; $(rm) '$(dist_dir)/'
+
+.PHONY: rebuild
+rebuild:
+  $(make) clean
+  $(make) build
