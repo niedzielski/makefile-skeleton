@@ -45,3 +45,8 @@ clean:; $(rm) '$(dist_dir)/'
 rebuild:
   $(make) clean
   $(make) build
+
+.PHONY: retest
+retest:
+  $(make) clean
+  $(make) test
