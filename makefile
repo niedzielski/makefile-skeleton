@@ -16,17 +16,17 @@ build: $(dist_files) bundle
 # file in the repo changes. This may be a no-op if the file changed was
 # irrelevant but that's what Make evaluates by examining the target's
 # dependencies.
-.PHONY: build\:watch
-build\:watch:; watchexec --ignore='*/$(dist_dir)/*' '$(MAKE) --silent build'
+.PHONY: build-watch
+build-watch:; watchexec --ignore='*/$(dist_dir)/*' '$(MAKE) --silent build'
 
 $(dist_dir)/%.bar: $(src_dir)/%.foo | $(dist_dir)/; $(cp) '$<' '$@'
 
 .PHONY: watch
-watch: build\:watch bundle\:watch
+watch: build-watch bundle-watch
 
-.PHONY: bundle\:watch
-bundle\:watch: bundle_args += --watch
-bundle\:watch: bundle
+.PHONY: bundle-watch
+bundle-watch: bundle_args += --watch
+bundle-watch: bundle
 
 # Unlike `gcc --dependencies`, most tools do not generate Make dependency
 # listings. For targets that may have their own dependency trees, such as a
