@@ -34,7 +34,7 @@ bundle-watch: bundle
 # determine if the target is outdated.
 .PHONY: bundle
 bundle: | $(dist_dir)/
-  $(deno) bundle '$(src_dir)/index.ts' '$(dist_dir)/index.js' $(bundle_args)
+  $(deno) bundle '$(src_dir)/index.ts' '--outdir=$(dist_dir)' $(bundle_args)
 
 $(dist_dir)/:; $(mkdir) '$@'
 

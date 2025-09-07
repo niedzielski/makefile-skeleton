@@ -14,6 +14,8 @@ parts:
 - [watchexec](https://watchexec.github.io) for tools that don't have a watch
   command.
 
+V=1 make --directory=atlas-pack rebuild
+
 ## License (public domain)
 
 All code in this repository is public domain and may be used without limitation.

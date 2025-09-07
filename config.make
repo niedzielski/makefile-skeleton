@@ -1,5 +1,8 @@
 # Debug with `V=1 make --jobs=1`.
 
+# fail recipes on the first failing command.
+.POSIX:
+
 # Report unitialized variable usage. Pass as a CLI flag to catch everything; see
 # https://savannah.gnu.org/bugs/?9060.
 MAKEFLAGS += --warn-undefined-variables
@@ -40,6 +43,7 @@ cp := cp --archive --force
 # Only report warnings and errors.
 # https://github.com/denoland/deno/issues/10558
 # https://github.com/denoland/deno/issues/15828
+# https://github.com/denoland/deno/issues/8890
 deno := deno $(if $(value V),,--quiet)
 
 # Overwrite destination.
